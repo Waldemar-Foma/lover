@@ -1,552 +1,161 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Наша история любви</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #ff4d6d;
-            --secondary: #ff8fa3;
-            --accent: #ffb3c1;
-            --dark: #2b2d42;
-            --light: #f8f9fa;
-            --gradient: linear-gradient(135deg, #ff4d6d, #ff8fa3);
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Montserrat', sans-serif;
-            color: var(--dark);
-            background-color: var(--light);
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
-        
-        h1, h2, h3, h4 {
-            font-family: 'Playfair Display', serif;
-            font-weight: 700;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        /* Навигация */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            padding: 20px 0;
-            z-index: 1000;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-            transition: var(--transition);
-        }
-        
-        .navbar.hidden {
-            transform: translateY(-100%);
-        }
-        
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary);
-            text-decoration: none;
-        }
-        
-        .nav-links {
-            display: flex;
-            list-style: none;
-        }
-        
-        .nav-links li {
-            margin-left: 30px;
-        }
-        
-        .nav-links a {
-            text-decoration: none;
-            color: var(--dark);
-            font-weight: 500;
-            transition: var(--transition);
-            position: relative;
-        }
-        
-        .nav-links a:after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--primary);
-            transition: var(--transition);
-        }
-        
-        .nav-links a:hover:after {
-            width: 100%;
-        }
-        
-        /* Гамбургер меню */
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            justify-content: space-between;
-            width: 30px;
-            height: 21px;
-            cursor: pointer;
-        }
-        
-        .hamburger span {
-            height: 3px;
-            width: 100%;
-            background-color: var(--primary);
-            border-radius: 3px;
-            transition: var(--transition);
-        }
-        
-        /* Герой секция */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding: 100px 0 60px;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" opacity="0.05"><circle cx="50" cy="50" r="40" fill="%23ff4d6d"/></svg>');
-            background-size: 200px;
-            opacity: 0.05;
-        }
-        
-        .hero-content {
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 2;
-        }
-        
-        .hero-title {
-            font-size: 4rem;
-            margin-bottom: 20px;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .hero-subtitle {
-            font-size: 1.5rem;
-            margin-bottom: 40px;
-            color: var(--dark);
-            font-weight: 400;
-        }
-        
-        .counter {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: var(--shadow);
-            margin-bottom: 40px;
-            display: inline-block;
-        }
-        
-        .counter h2 {
-            font-size: 2rem;
-            margin-bottom: 15px;
-            color: var(--primary);
-        }
-        
-        .counter-number {
-            font-size: 3.5rem;
-            font-weight: 700;
-            color: var(--primary);
-        }
-        
-        /* Анимированный цветок */
-        .flower-container {
-            margin: 40px auto;
-            width: 150px;
-            height: 250px;
-            position: relative;
-            opacity: 0;
-            transform: scale(0.5);
-            animation: growFlower 3s forwards;
-            animation-delay: 0.5s;
-        }
-        
-        @keyframes growFlower {
-            0% {
-                opacity: 0;
-                transform: scale(0.5);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-        
-        .flower-path {
-            fill: #ff8fa3;
-        }
-        
-        /* Секции */
-        .section {
-            padding: 100px 0;
-        }
-        
-        .section-title {
-            text-align: center;
-            font-size: 2.8rem;
-            margin-bottom: 60px;
-            position: relative;
-        }
-        
-        .section-title:after {
-            content: '';
-            position: absolute;
-            bottom: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background: var(--gradient);
-            border-radius: 2px;
-        }
-        
-        /* Галерея */
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
-            margin-top: 40px;
-        }
-        
-        .gallery-item {
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            height: 300px;
-            background: linear-gradient(135deg, var(--accent), var(--primary));
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            position: relative;
-            cursor: pointer;
-        }
-        
-        .gallery-item:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-        }
-        
-        .gallery-item i {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-            opacity: 0.9;
-        }
-        
-        .gallery-item span {
-            font-size: 1.2rem;
-            font-weight: 500;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
-        }
-        
-        /* Стихи */
-        .poem {
-            background: white;
-            border-radius: 20px;
-            padding: 60px;
-            box-shadow: var(--shadow);
-            margin: 60px 0;
-            text-align: center;
-            position: relative;
-        }
-        
-        .poem:before {
-            content: '"';
-            position: absolute;
-            top: 30px;
-            left: 30px;
-            font-size: 6rem;
-            font-family: 'Playfair Display', serif;
-            color: var(--accent);
-            opacity: 0.2;
-            line-height: 1;
-        }
-        
-        .poem p {
-            font-size: 1.3rem;
-            margin-bottom: 25px;
-            font-style: italic;
-            color: var(--dark);
-            line-height: 1.8;
-            position: relative;
-            z-index: 2;
-        }
-        
-        /* Воспоминания */
-        .memories {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 30px;
-            margin-top: 50px;
-        }
-        
-        .memory-card {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-        }
-        
-        .memory-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-        }
-        
-        .memory-content {
-            padding: 25px;
-        }
-        
-        .memory-date {
-            color: var(--primary);
-            font-weight: 600;
-            margin-bottom: 10px;
-            display: block;
-        }
-        
-        .memory-title {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            color: var(--dark);
-        }
-        
-        .memory-text {
-            color: #666;
-            margin-bottom: 0;
-        }
-        
-        /* Футер */
-        footer {
-            background: var(--dark);
-            color: white;
-            padding: 60px 0 30px;
-            text-align: center;
-        }
-        
-        .footer-content {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        .footer-heart {
-            color: var(--primary);
-            font-size: 1.5rem;
-            margin: 0 5px;
-        }
-        
-        .footer-text {
-            margin-top: 20px;
-            opacity: 0.8;
-        }
-        
-        /* Анимации */
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-            100% { transform: translateY(0px); }
-        }
-        
-        .floating {
-            animation: float 5s ease-in-out infinite;
-        }
-        
-        /* Адаптивность */
-        @media (max-width: 992px) {
-            .hero-title {
-                font-size: 3rem;
-            }
-            
-            .gallery {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            }
-            
-            .memories {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .navbar {
-                padding: 15px 0;
-            }
-            
-            .nav-links {
-                position: fixed;
-                top: 0;
-                right: -100%;
-                height: 100vh;
-                width: 70%;
-                flex-direction: column;
-                background: white;
-                padding: 100px 20px 40px;
-                box-shadow: -5px 0 25px rgba(0, 0, 0, 0.1);
-                transition: right 0.4s ease;
-                z-index: 999;
-            }
-            
-            .nav-links.active {
-                right: 0;
-            }
-            
-            .nav-links li {
-                margin: 15px 0;
-            }
-            
-            .hamburger {
-                display: flex;
-                z-index: 1000;
-            }
-            
-            .hamburger.active span:nth-child(1) {
-                transform: rotate(45deg) translate(5px, 5px);
-            }
-            
-            .hamburger.active span:nth-child(2) {
-                opacity: 0;
-            }
-            
-            .hamburger.active span:nth-child(3) {
-                transform: rotate(-45deg) translate(7px, -6px);
-            }
-            
-            .hero-title {
-                font-size: 2.5rem;
-            }
-            
-            .hero-subtitle {
-                font-size: 1.2rem;
-            }
-            
-            .counter-number {
-                font-size: 2.5rem;
-            }
-            
-            .section {
-                padding: 70px 0;
-            }
-            
-            .section-title {
-                font-size: 2.2rem;
-            }
-            
-            .poem {
-                padding: 40px 30px;
-            }
-            
-            .poem p {
-                font-size: 1.1rem;
-            }
-            
-            .gallery {
-                grid-template-columns: 1fr;
-            }
-            
-            .gallery-item {
-                height: 250px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .hero-title {
-                font-size: 2rem;
-            }
-            
-            .counter {
-                padding: 20px;
-            }
-            
-            .counter h2 {
-                font-size: 1.5rem;
-            }
-            
-            .counter-number {
-                font-size: 2rem;
-            }
-            
-            .section-title {
-                font-size: 1.8rem;
-            }
-            
-            .flower-container {
-                width: 120px;
-                height: 200px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Наша история любви — локальные медиа</title>
+  <!-- ИКОНКИ/ШРИФТЫ можно оставить как было; при желании заменить на локальные -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary:#ff4d6d; --secondary:#ff8fa3; --accent:#ffb3c1; --dark:#2b2d42; --light:#f8f9fa;
+      --gradient:linear-gradient(135deg,#ff4d6d,#ff8fa3);
+      --shadow:0 10px 30px rgba(0,0,0,.1);
+      --transition:all .3s ease;
+    }
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{font-family:'Montserrat',sans-serif;color:var(--dark);background:var(--light);overflow-x:hidden;line-height:1.6}
+    h1,h2,h3,h4{font-family:'Playfair Display',serif;font-weight:700}
+    .container{max-width:1200px;margin:0 auto;padding:0 20px}
+
+    /* Навигация */
+    .navbar{position:sticky;top:0;left:0;width:100%;padding:14px 0;z-index:1000;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);box-shadow:0 2px 20px rgba(0,0,0,.08);transition:var(--transition)}
+    .nav-container{display:flex;justify-content:space-between;align-items:center}
+    .logo{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:var(--primary);text-decoration:none}
+    .nav-links{display:flex;list-style:none}
+    .nav-links li{margin-left:28px}
+    .nav-links a{text-decoration:none;color:var(--dark);font-weight:500;position:relative}
+    .nav-links a:after{content:'';position:absolute;bottom:-5px;left:0;width:0;height:2px;background:var(--primary);transition:var(--transition)}
+    .nav-links a:hover:after{width:100%}
+
+    .hamburger{display:none;flex-direction:column;justify-content:space-between;width:30px;height:21px;cursor:pointer}
+    .hamburger span{height:3px;width:100%;background:var(--primary);border-radius:3px;transition:var(--transition)}
+
+    /* Hero */
+    .hero{min-height:100vh;display:flex;align-items:center;padding:100px 0 60px;position:relative;overflow:hidden}
+    .hero::before{content:'';position:absolute;inset:0;background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" opacity="0.05"><circle cx="50" cy="50" r="40" fill="%23ff4d6d"/></svg>');background-size:200px;opacity:.05}
+    .hero-content{text-align:center;max-width:800px;margin:0 auto;position:relative;z-index:1}
+    .hero-title{font-size:4rem;margin-bottom:20px;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .hero-subtitle{font-size:1.5rem;margin-bottom:40px;color:var(--dark);font-weight:400}
+    .counter{background:#fff;border-radius:20px;padding:26px;box-shadow:var(--shadow);margin-bottom:40px;display:inline-block}
+    .counter h2{font-size:1.9rem;margin-bottom:10px;color:var(--primary)}
+    .counter-number{font-size:3.1rem;font-weight:700;color:var(--primary)}
+
+    .flower-container{margin:40px auto;width:150px;height:250px;position:relative;opacity:0;transform:scale(.6)}
+    .in-view .flower-container{animation:growFlower 1.2s .1s both}
+    @keyframes growFlower{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:scale(1)}}
+    .flower-path{fill:#ff8fa3}
+
+    /* Разделы */
+    .section{padding:90px 0}
+    .section-title{text-align:center;font-size:2.6rem;margin-bottom:46px;position:relative}
+    .section-title:after{content:'';position:absolute;bottom:-14px;left:50%;transform:translateX(-50%);width:80px;height:4px;background:var(--gradient);border-radius:2px}
+
+    /* Галерея */
+    .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:22px;margin-top:24px}
+    .gallery-item{border-radius:14px;overflow:hidden;box-shadow:var(--shadow);transition:transform .35s ease, box-shadow .35s ease;position:relative;background:#fff;cursor:pointer}
+    .gallery-item:hover{transform:translateY(-8px);box-shadow:0 15px 35px rgba(0,0,0,.12)}
+    .gallery-thumb{width:100%;height:260px;object-fit:cover;display:block}
+    .gallery-caption{position:absolute;left:12px;bottom:12px;background:rgba(0,0,0,.5);color:#fff;padding:8px 12px;border-radius:12px;font-weight:600;font-size:.95rem}
+
+    /* Стихи */
+    .poem{background:#fff;border-radius:20px;padding:48px;box-shadow:var(--shadow);margin:40px 0;text-align:center;position:relative}
+    .poem:before{content:'"';position:absolute;top:20px;left:24px;font-size:5rem;font-family:'Playfair Display',serif;color:var(--accent);opacity:.18;line-height:1}
+    .poem p{font-size:1.2rem;margin-bottom:18px;font-style:italic;color:var(--dark);line-height:1.8}
+
+    /* Воспоминания */
+    .memories{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:26px;margin-top:34px}
+    .memory-card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:var(--shadow);transition:transform .35s ease, box-shadow .35s ease;cursor:pointer}
+    .memory-card:hover{transform:translateY(-5px);box-shadow:0 15px 35px rgba(0,0,0,.1)}
+    .memory-image{width:100%;height:210px;overflow:hidden;background:#f1f1f1}
+    .memory-image img{width:100%;height:100%;object-fit:cover;display:block}
+    .memory-content{padding:22px}
+    .memory-date{color:var(--primary);font-weight:600;margin-bottom:8px;display:block}
+    .memory-title{font-size:1.35rem;margin-bottom:12px;color:var(--dark)}
+    .memory-text{color:#666;margin:0}
+
+    /* Футер */
+    footer{background:var(--dark);color:#fff;padding:54px 0 28px;text-align:center}
+    .footer-content{max-width:600px;margin:0 auto}
+    .footer-heart{color:var(--primary);font-size:1.4rem;margin:0 5px}
+    .footer-text{margin-top:18px;opacity:.85}
+
+    /* Модалки */
+    .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:2000;opacity:0;transition:opacity .28s ease;align-items:center;justify-content:center;padding:16px}
+    .modal.active{display:flex;opacity:1}
+    .modal-content{background:#fff;border-radius:14px;max-width:960px;width:100%;max-height:90vh;overflow:hidden;position:relative;transform:scale(.96);transition:transform .28s ease;box-shadow:0 20px 40px rgba(0,0,0,.3)}
+    .modal.active .modal-content{transform:scale(1)}
+    .close-modal{position:absolute;top:12px;right:12px;font-size:1.6rem;color:#fff;background:rgba(0,0,0,.5);width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10}
+    .media-container{height:62vh;position:relative;background:#000}
+    .media-container img,.media-container video{width:100%;height:100%;object-fit:contain}
+    .gallery-nav{position:absolute;top:50%;left:0;right:0;display:flex;justify-content:space-between;padding:0 14px;transform:translateY(-50%);z-index:5}
+    .gallery-nav-btn{width:46px;height:46px;background:rgba(0,0,0,.5);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.3rem;cursor:pointer}
+    .gallery-thumbnails{display:flex;padding:12px;overflow-x:auto;background:#f7f7f7}
+    .thumbnail{width:78px;height:78px;margin-right:10px;border-radius:8px;overflow:hidden;cursor:pointer;opacity:.7;flex-shrink:0;border:2px solid transparent}
+    .thumbnail img,.thumbnail video{width:100%;height:100%;object-fit:cover}
+    .thumbnail:hover,.thumbnail.active{opacity:1;border-color:var(--primary)}
+
+    /* Анимации появления */
+    .reveal{opacity:0;transform:translateY(36px);transition:opacity .7s ease, transform .7s ease}
+    .reveal.in-view{opacity:1;transform:translateY(0)}
+
+    /* Prefers-reduced-motion */
+    @media (prefers-reduced-motion: reduce){
+      *{animation:none!important;transition:none!important}
+    }
+
+    /* Адаптив */
+    @media (max-width:992px){
+      .hero-title{font-size:3rem}
+      .gallery{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+      .memories{grid-template-columns:1fr}
+    }
+    @media (max-width:768px){
+      .nav-links{position:fixed;top:0;right:-100%;height:100vh;width:74%;flex-direction:column;background:#fff;padding:96px 20px 40px;box-shadow:-5px 0 25px rgba(0,0,0,.1);transition:right .4s ease;z-index:999}
+      .nav-links.active{right:0}
+      .nav-links li{margin:14px 0}
+      .hamburger{display:flex;z-index:1000}
+      .hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+      .hamburger.active span:nth-child(2){opacity:0}
+      .hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(7px,-6px)}
+      .hero-title{font-size:2.5rem}
+      .hero-subtitle{font-size:1.15rem}
+      .counter-number{font-size:2.4rem}
+      .section{padding:70px 0}
+      .poem{padding:38px 26px}
+      .media-container{height:52vh}
+    }
+    @media (max-width:480px){
+      .hero-title{font-size:2rem}
+      .modal-content{border-radius:10px}
+      .gallery-thumb{height:220px}
+    }
+  </style>
 </head>
 <body>
-    <!-- Навигация -->
-    <nav class="navbar">
-        <div class="container nav-container">
-            <a href="#" class="logo">Навсегда</a>
-            <ul class="nav-links">
-                <li><a href="#love">Любовь</a></li>
-                <li><a href="#gallery">Галерея</a></li>
-                <li><a href="#memories">Воспоминания</a></li>
-                <li><a href="#poem">Стихи</a></li>
-            </ul>
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-    </nav>
-    
-    <!-- Герой секция -->
-    <section class="hero" id="love">
-        <div class="container hero-content">
-            <h1 class="hero-title">Наша история</h1>
-            <p class="hero-subtitle">Каждый день с тобой — это новая страница нашей прекрасной истории</p>
-            
-            <!-- Анимированный цветок -->
-            <div class="flower-container">
-                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="85.11px"
+  <!-- Навигация -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="#" class="logo">Навсегда</a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#love">Любовь</a></li>
+        <li><a href="#gallery">Галерея</a></li>
+        <li><a href="#memories">Воспоминания</a></li>
+        <li><a href="#poem">Стихи</a></li>
+      </ul>
+      <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+    </div>
+  </nav>
+
+  <!-- Герой -->
+  <section class="hero" id="love">
+    <div class="container hero-content reveal">
+      <h1 class="hero-title">Наша история</h1>
+      <p class="hero-subtitle">Каждый день с тобой — новая страница нашей прекрасной истории</p>
+      <div class="flower-container">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="85.11px"
                      height="173.58px" viewBox="0 0 85.11 173.58" style="enable-background:new 0 0 85.11 173.58;" xml:space="preserve">
                 <path class="flower-path" d="M66.7,94.49c-3.45,1-8.82,2.87-10.5,6.33c-1.7,0.99-3.19,2.21-4.66,3.62c3.95-7.18,8.52-14.18,11.36-21.7
                     c0.21-0.17,0.41-0.34,0.59-0.52c1.77-1.78,3.39-4.54,3.82-7.21c0.57,1.13,1.29,2.19,2.04,3.17c1.47,1.93,4.21,4.77,6.91,3.36
@@ -586,209 +195,340 @@
                     c1.17-4.53,3.10-8.83,5.31-13.03c1.55-1.22,2.85-2.71,4.42-3.92c0.44-0.34,0.92-0.64,1.41-0.91c9.45,3.51,26.72-1.31,27.97-12.68
                     C83.32,93.91,70.48,93.34,66.7,94.49z"/>
                 </svg>
-            </div>
-            
-            <div class="counter floating">
-                <h2>Мы вместе уже</h2>
-                <div class="counter-number" id="daysCounter">0</div>
-                <p>дней с 2 марта 2024 года</p>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Галерея -->
-    <section class="section" id="gallery">
-        <div class="container">
-            <h2 class="section-title">Наши моменты</h2>
-            <div class="gallery">
-                <div class="gallery-item">
-                    <i class="fas fa-heart"></i>
-                    <span>Первое свидание</span>
-                </div>
-                <div class="gallery-item">
-                    <i class="fas fa-sun"></i>
-                    <span>Закат вместе</span>
-                </div>
-                <div class="gallery-item">
-                    <i class="fas fa-plane"></i>
-                    <span>Путешествия</span>
-                </div>
-                <div class="gallery-item">
-                    <i class="fas fa-laugh"></i>
-                    <span>Смех и радость</span>
-                </div>
-                <div class="gallery-item">
-                    <i class="fas fa-hand-holding-heart"></i>
-                    <span>Наши руки</span>
-                </div>
-                <div class="gallery-item">
-                    <i class="fas fa-gift"></i>
-                    <span>Сюрпризы</span>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Стихи -->
-    <section class="section" id="poem">
-        <div class="container">
-            <h2 class="section-title">Тебе</h2>
-            <div class="poem">
-                <p>Ты — мое солнце в пасмурный день,<br>
-                Мой лучик света в темноте ночной.<br>
-                Ты — тайный шепот, что милей всех слов,<br>
-                И смысл existence, данный мне судьбой.</p>
-                <p>Твоя улыбка — как весенний рассвет,<br>
-                Что будит ото сна всю землю вокруг.<br>
-                В твоих глазах — весь мир, и в нем ответ<br>
-                На все мои сомненья, тревоги и испуг.</p>
-                <p>Любовь моя к тебе — как океан без границ,<br>
-                Где каждая волна — признание в любви.<br>
-                И даже если между нами дальние границы,<br>
-                Сердца наши вместе, поверь.</p>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Воспоминания -->
-    <section class="section" id="memories">
-        <div class="container">
-            <h2 class="section-title">Памятные моменты</h2>
-            <div class="memories">
-                <div class="memory-card">
-                    <div class="memory-content">
-                        <span class="memory-date">02.03.2024</span>
-                        <h3 class="memory-title">Наша первая встреча</h3>
-                        <p class="memory-text">День, когда все началось. Помню твою улыбку и как ты смущалась. Это был самый важный день в моей жизни.</p>
-                    </div>
-                </div>
-                
-                <div class="memory-card">
-                    <div class="memory-content">
-                        <span class="memory-date">15.05.2024</span>
-                        <h3 class="memory-title">Первое путешествие</h3>
-                        <p class="memory-text">Маленькое приключение, которое показало, как здорово мы понимаем друг друга. Эти дни были наполнены смехом и счастьем.</p>
-                    </div>
-                </div>
-                
-                <div class="memory-card">
-                    <div class="memory-content">
-                        <span class="memory-date">17.01.2024</span>
-                        <h3 class="memory-title">Твой день рождения</h3>
-                        <p class="memory-text">Как я старался сделать этот день особенным, и как ты была счастлива. Видеть твою радость — лучший подарок для меня.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Футер -->
-    <footer>
-        <div class="container footer-content">
-            <h3>Создано с <span class="footer-heart">❤</span> специально для тебя</h3>
-            <p class="footer-text">Расстояние не имеет значения, когда сердца бьются в унисон</p>
-        </div>
-    </footer>
+      </div>
+      <div class="counter">
+        <h2>Мы вместе уже</h2>
+        <div class="counter-number" id="daysCounter">0</div>
+        <p>дней с 2 марта 2024 года</p>
+      </div>
+    </div>
+  </section>
 
-    <script>
-        // Расчет количества дней с начала отношений
-        function calculateDays() {
-            const startDate = new Date(2024, 2, 2); // 2 марта 2024 (месяцы в JS: 0-11)
-            const currentDate = new Date();
-            const timeDiff = currentDate - startDate;
-            const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-            return daysDiff;
+  <!-- Галерея: Наши моменты -->
+  <section class="section" id="gallery">
+    <div class="container">
+      <h2 class="section-title">Наши моменты</h2>
+      <div id="galleryContainer" class="gallery"></div>
+    </div>
+  </section>
+
+  <!-- Стихи -->
+  <section class="section" id="poem">
+    <div class="container">
+      <h2 class="section-title">Тебе</h2>
+      <div class="poem reveal">
+        <p>Ты — мое солнце в пасмурный день,<br>Мой лучик света в темноте ночной.<br>Ты — тайный шепот, что милей всех слов,<br>И смысл existence, данный мне судьбой.</p>
+        <p>Твоя улыбка — как весенний рассвет,<br>Что будит ото сна всю землю вокруг.<br>В твоих глазах — весь мир, и в нем ответ<br>На все мои сомненья, тревоги и испуг.</p>
+        <p>Любовь моя к тебе — как океан без границ,<br>Где каждая волна — признание в любви.<br>И даже если между нами дальние границы,<br>Сердца наши вместе — и всегда живы.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Воспоминания: Памятные моменты -->
+  <section class="section" id="memories">
+    <div class="container">
+      <h2 class="section-title">Памятные моменты</h2>
+      <div class="memories" id="memoriesContainer"></div>
+    </div>
+  </section>
+
+  <!-- Футер -->
+  <footer>
+    <div class="container footer-content">
+      <h3>Создано с <span class="footer-heart">❤</span> специально для тебя</h3>
+      <p class="footer-text">Расстояние не имеет значения, когда сердца бьются в унисон</p>
+    </div>
+  </footer>
+
+  <!-- Модальное окно галереи -->
+  <div class="modal" id="galleryModal" aria-hidden="true" role="dialog">
+    <div class="modal-content">
+      <span class="close-modal" data-close>&times;</span>
+      <div class="media-container">
+        <img id="galleryMainMedia" alt="" loading="lazy" decoding="async" />
+        <div class="gallery-nav">
+          <div class="gallery-nav-btn" id="prevBtn"><i class="fas fa-chevron-left"></i></div>
+          <div class="gallery-nav-btn" id="nextBtn"><i class="fas fa-chevron-right"></i></div>
+        </div>
+      </div>
+      <div class="gallery-thumbnails" id="galleryThumbnails"></div>
+    </div>
+  </div>
+
+  <!-- Модалка воспоминаний -->
+  <div class="modal" id="memoryModal" aria-hidden="true" role="dialog">
+    <div class="modal-content">
+      <span class="close-modal" data-close>&times;</span>
+      <div class="media-container" style="height:340px;background:#000">
+        <img id="memoryMainImage" alt="" loading="lazy" decoding="async" />
+      </div>
+      <div class="memory-details" style="padding:22px;max-height:calc(90vh - 340px);overflow:auto">
+        <span class="memory-date" id="memoryModalDate"></span>
+        <h3 class="memory-title" id="memoryModalTitle"></h3>
+        <p class="memory-text" id="memoryModalText"></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ==========================
+    // 1) КОНФИГ ДЛЯ ЛОКАЛЬНЫХ ФАЙЛОВ (img/)
+    // ==========================
+    // Положи фото/видео в папку img/ и просто пропиши пути ниже.
+    // Галерея "Наши моменты": сколько ссылок в массиве items — столько и карточек.
+    // Поддерживаются изображения (jpg/png/webp) и видео (mp4). Для видео можно указать постер.
+    const GALLERIES = [
+      {
+        title: 'Первое свидание',
+        cover: 'img/date_cover.jpg', // картинка для превью карточки
+        items: [ // СЮДА ДОБАВЛЯЙ ССЫЛКИ НА МЕДИА ИЗ img/
+          { src: 'img/date_01.jpg' },
+          { src: 'img/date_02.jpg' },
+          { src: 'img/date_03.mp4', type: 'video', poster: 'img/date_poster.jpg' }
+        ]
+      },
+      {
+        title: 'Закат вместе',
+        cover: 'img/sunset_cover.jpg',
+        items: [
+          { src: 'img/sunset_01.jpg' },
+          { src: 'img/sunset_02.jpg' }
+        ]
+      },
+      {
+        title: 'Путешествия',
+        cover: 'img/travel_cover.jpg',
+        items: [
+          { src: 'img/travel_01.jpg' },
+          { src: 'img/travel_02.jpg' },
+          { src: 'img/travel_03.jpg' }
+        ]
+      }
+      // Добавляй новые разделы так же
+    ];
+
+    // Памятные моменты: по ОДНОЙ фотке на карточку (image)
+    const MEMORIES = [
+      {
+        date: '02.03.2024',
+        title: 'Начало наших отношений',
+        image: 'img/start.jpg', // только одна фотка
+        text: 'День, когда все началось. Помню твою улыбку и как ты не понимала зачем же я тебя поцеловал) Это был самый важный день в моей жизни.'
+      },
+        {
+        date: '26.03.2024',
+        title: 'Твоя поддержка перед моей операцией',
+        image: 'img/operation.jpg',
+        text: 'В этот сложный период ты показала как ты меня ценишь и любишь.'
+      },
+      {
+        date: '17.01.2025',
+        title: 'Твой день рождения',
+        image: 'img/dr.jpg',
+        text: 'Я старался сделать этот день особенным, и как ты была счастлива. Видеть твою радость — лучший подарок для меня.'
+      }
+    ];
+
+    // ==========================
+    // 2) УТИЛИТЫ
+    // ==========================
+    const $ = (s, r=document) => r.querySelector(s);
+    const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+
+    // Счетчик дней
+    function calculateDays(){
+      const startDate = new Date(2024, 2, 2); // 2 марта 2024
+      const now = new Date();
+      return Math.floor((now - startDate)/(1000*60*60*24));
+    }
+    function updateCounter(){ $('#daysCounter').textContent = calculateDays(); }
+
+    // Ленивая загрузка миниатюр
+    function lazyImg(img){
+      const io = new IntersectionObserver((entries,obs)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){
+            const el = e.target; el.src = el.dataset.src; el.removeAttribute('data-src'); obs.unobserve(el);
+          }
+        });
+      },{rootMargin:'200px'});
+      io.observe(img);
+    }
+
+    // Помощник определения типа медиа
+    const isVideo = src => /\.(mp4|webm|ogg)$/i.test(src);
+
+    // ==========================
+    // 3) ГАМБУРГЕР и НАВИГАЦИЯ
+    // ==========================
+    const hamburger = $('#hamburger');
+    const navLinks = $('#navLinks');
+    hamburger?.addEventListener('click',()=>{ hamburger.classList.toggle('active'); navLinks.classList.toggle('active'); });
+    $$('#navLinks a').forEach(a=>a.addEventListener('click',()=>{ navLinks.classList.remove('active'); hamburger.classList.remove('active'); }));
+
+    // ==========================
+    // 4) ГЕНЕРАЦИЯ РАЗМЕТКИ ИЗ СЛОВАРЕЙ
+    // ==========================
+    const galleryContainer = $('#galleryContainer');
+    const memoriesContainer = $('#memoriesContainer');
+
+    // Наши моменты — карточка на каждый элемент массива GALLERIES
+    function renderGalleries(){
+      galleryContainer.innerHTML = '';
+      GALLERIES.forEach((g, gi)=>{
+        const card = document.createElement('article');
+        card.className = 'gallery-item reveal';
+        card.tabIndex = 0;
+        card.setAttribute('role','button');
+        card.setAttribute('aria-label', g.title);
+
+        const img = document.createElement('img');
+        img.className = 'gallery-thumb';
+        img.alt = g.title;
+        img.loading = 'lazy';
+        img.decoding = 'async';
+        img.dataset.src = g.cover || (g.items[0]?.src || '');
+        lazyImg(img);
+
+        const cap = document.createElement('div');
+        cap.className = 'gallery-caption';
+        cap.textContent = g.title + (g.items?.length ? ` · ${g.items.length}` : '');
+
+        card.appendChild(img); card.appendChild(cap);
+        card.addEventListener('click', ()=> openGallery(gi, 0));
+        card.addEventListener('keypress', (e)=>{ if(e.key==='Enter') openGallery(gi,0); });
+        galleryContainer.appendChild(card);
+      });
+    }
+
+    // Памятные моменты — только одна фотка на карточку
+    function renderMemories(){
+      memoriesContainer.innerHTML = '';
+      MEMORIES.forEach((m, mi)=>{
+        const card = document.createElement('article');
+        card.className = 'memory-card reveal';
+        card.addEventListener('click', ()=> openMemory(mi));
+
+        const imgWrap = document.createElement('div');
+        imgWrap.className = 'memory-image';
+        const img = document.createElement('img');
+        img.alt = m.title; img.loading='lazy'; img.decoding='async'; img.dataset.src = m.image; lazyImg(img);
+        imgWrap.appendChild(img);
+
+        const content = document.createElement('div');
+        content.className = 'memory-content';
+        content.innerHTML = `<span class="memory-date">${m.date}</span><h3 class="memory-title">${m.title}</h3><p class="memory-text">${m.text}</p>`;
+
+        card.appendChild(imgWrap); card.appendChild(content);
+        memoriesContainer.appendChild(card);
+      });
+    }
+
+    // ==========================
+    // 5) МОДАЛКА ГАЛЕРЕИ
+    // ==========================
+    const galleryModal = $('#galleryModal');
+    const galleryMain = $('#galleryMainMedia');
+    const thumbs = $('#galleryThumbnails');
+    let currentGallery = 0, currentIndex = 0, currentVideoEl = null;
+
+    function openGallery(gIndex, startIndex=0){
+      currentGallery = gIndex; currentIndex = startIndex;
+      document.body.style.overflow='hidden';
+      renderGalleryThumbnails();
+      showGalleryMedia(currentIndex);
+      galleryModal.classList.add('active');
+      galleryModal.setAttribute('aria-hidden','false');
+    }
+
+    function closeGallery(){
+      pauseVideo();
+      galleryModal.classList.remove('active');
+      galleryModal.setAttribute('aria-hidden','true');
+      document.body.style.overflow='';
+    }
+
+    function pauseVideo(){ if(currentVideoEl){ try{ currentVideoEl.pause(); }catch{} currentVideoEl.remove(); currentVideoEl=null; } }
+
+    function renderGalleryThumbnails(){
+      thumbs.innerHTML = '';
+      (GALLERIES[currentGallery].items||[]).forEach((item,i)=>{
+        const th = document.createElement('div'); th.className = 'thumbnail' + (i===currentIndex?' active':'');
+        if(isVideo(item.src)){
+          const v = document.createElement('video'); v.src=item.src; if(item.poster) v.poster=item.poster; th.appendChild(v);
+        } else {
+          const im = document.createElement('img'); im.src=item.src; th.appendChild(im);
         }
-        
-        // Обновление счетчика дней
-        function updateCounter() {
-            const days = calculateDays();
-            document.getElementById('daysCounter').textContent = days;
-        }
-        
-        // Плавная прокрутка для навигации
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                    
-                    // Закрытие меню на мобильных устройствах после клика
-                    if (navLinks.classList.contains('active')) {
-                        hamburger.classList.remove('active');
-                        navLinks.classList.remove('active');
-                    }
-                }
-            });
-        });
-        
-        // Скрытие навигации при прокрутке
-        let lastScrollTop = 0;
-        const navbar = document.querySelector('.navbar');
-        
-        window.addEventListener('scroll', function() {
-            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            
-            if (scrollTop > lastScrollTop && scrollTop > 200) {
-                navbar.classList.add('hidden');
-            } else {
-                navbar.classList.remove('hidden');
-            }
-            
-            lastScrollTop = scrollTop;
-        });
-        
-        // Гамбургер меню
-        const hamburger = document.querySelector('.hamburger');
-        const navLinks = document.querySelector('.nav-links');
-        
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navLinks.classList.toggle('active');
-        });
-        
-        // Инициализация при загрузке страницы
-        window.onload = function() {
-            updateCounter();
-            
-            // Обновление счетчика каждую минуту
-            setInterval(updateCounter, 60000);
-            
-            // Анимация появления элементов при прокрутке
-            const animateOnScroll = function() {
-                const elements = document.querySelectorAll('.gallery-item, .memory-card, .poem');
-                
-                elements.forEach(element => {
-                    const elementPosition = element.getBoundingClientRect().top;
-                    const screenPosition = window.innerHeight / 1.3;
-                    
-                    if (elementPosition < screenPosition) {
-                        element.style.opacity = '1';
-                        element.style.transform = 'translateY(0)';
-                    }
-                });
-            };
-            
-            // Инициализация стилей для анимации
-            const animatedElements = document.querySelectorAll('.gallery-item, .memory-card, .poem');
-            animatedElements.forEach(element => {
-                element.style.opacity = '0';
-                element.style.transform = 'translateY(50px)';
-                element.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-            });
-            
-            window.addEventListener('scroll', animateOnScroll);
-            // Первый вызов для видимых элементов
-            animateOnScroll();
-        };
-    </script>
+        th.addEventListener('click',()=>{ currentIndex=i; updateActiveThumb(); showGalleryMedia(currentIndex); });
+        thumbs.appendChild(th);
+      });
+    }
+
+    function updateActiveThumb(){
+      $$('.thumbnail', thumbs).forEach((el, i)=>{ el.classList.toggle('active', i===currentIndex); });
+    }
+
+    function showGalleryMedia(index){
+      pauseVideo();
+      const item = GALLERIES[currentGallery].items[index];
+      if(!item) return;
+      if(isVideo(item.src)){
+        const v = document.createElement('video');
+        v.controls = true; v.autoplay = true; v.playsInline = true; v.style.width='100%'; v.style.height='100%'; v.style.objectFit='contain';
+        v.src = item.src; if(item.poster) v.poster=item.poster; galleryMain.style.display='none'; galleryMain.removeAttribute('src');
+        galleryMain.parentNode.appendChild(v); currentVideoEl = v; v.play().catch(()=>{});
+      } else {
+        galleryMain.src = item.src; galleryMain.alt = GALLERIES[currentGallery].title; galleryMain.style.display='block';
+      }
+    }
+
+    $('#prevBtn').addEventListener('click',()=>{ const len=GALLERIES[currentGallery].items.length; currentIndex=(currentIndex-1+len)%len; updateActiveThumb(); showGalleryMedia(currentIndex); });
+    $('#nextBtn').addEventListener('click',()=>{ const len=GALLERIES[currentGallery].items.length; currentIndex=(currentIndex+1)%len; updateActiveThumb(); showGalleryMedia(currentIndex); });
+
+    // Закрытие модалок
+    document.addEventListener('click',(e)=>{ if(e.target.matches('[data-close]')){ closeGallery(); closeMemory(); } if(e.target===galleryModal){ closeGallery(); } if(e.target===memoryModal){ closeMemory(); } });
+    document.addEventListener('keydown',(e)=>{ if(e.key==='Escape'){ closeGallery(); closeMemory(); } });
+
+    // ==========================
+    // 6) МОДАЛКА ПАМЯТНЫХ МОМЕНТОВ
+    // ==========================
+    const memoryModal = $('#memoryModal');
+    const memoryImg = $('#memoryMainImage');
+    function openMemory(i){
+      const m = MEMORIES[i]; if(!m) return;
+      memoryImg.src = m.image; memoryImg.alt = m.title;
+      $('#memoryModalDate').textContent = m.date;
+      $('#memoryModalTitle').textContent = m.title;
+      $('#memoryModalText').textContent = m.text;
+      document.body.style.overflow='hidden';
+      memoryModal.classList.add('active'); memoryModal.setAttribute('aria-hidden','false');
+    }
+    function closeMemory(){ memoryModal.classList.remove('active'); memoryModal.setAttribute('aria-hidden','true'); document.body.style.overflow=''; }
+
+    // ==========================
+    // 7) АНИМАЦИИ ПРИ ПРОКРУТКЕ (оптимизировано через IntersectionObserver)
+    // ==========================
+    const ioReveal = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in-view'); ioReveal.unobserve(e.target); } });
+    },{rootMargin:'-40px 0px'});
+
+    function initReveal(){ $$('.reveal').forEach(el=> ioReveal.observe(el)); }
+
+    // ==========================
+    // 8) ПРЕЛОАД КЛЮЧЕВЫХ ИЗОБРАЖЕНИЙ
+    // ==========================
+    function preload(srcs){ srcs.filter(Boolean).slice(0,3).forEach(src=>{ const img=new Image(); img.src=src; }); }
+
+    // ==========================
+    // 9) ИНИЦИАЛИЗАЦИЯ
+    // ==========================
+    function init(){
+      updateCounter(); setInterval(updateCounter, 60000);
+      renderGalleries(); renderMemories(); initReveal();
+      // Прелоад первых обложек галерей
+      preload(GALLERIES.map(g=> g.cover || (g.items[0]?.src)));
+    }
+    window.addEventListener('DOMContentLoaded', init, { once:true });
+  </script>
 </body>
 </html>
