@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Наша история любви</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff4d6d;
+            --secondary: #ff8fa3;
+            --accent: #ffb3c1;
+            --dark: #2b2d42;
+            --light: #f8f9fa;
+            --gradient: linear-gradient(135deg, #ff4d6d, #ff8fa3);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--dark);
+            background-color: var(--light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Навигация */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+        
+        .navbar.hidden {
+            transform: translateY(-100%);
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+        
+        /* Гамбургер меню */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            cursor: pointer;
+        }
+        
+        .hamburger span {
+            height: 3px;
+            width: 100%;
+            background-color: var(--primary);
+            border-radius: 3px;
+            transition: var(--transition);
+        }
+        
+        /* Герой секция */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 100px 0 60px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" opacity="0.05"><circle cx="50" cy="50" r="40" fill="%23ff4d6d"/></svg>');
+            background-size: 200px;
+            opacity: 0.05;
+        }
+        
+        .hero-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-title {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            color: var(--dark);
+            font-weight: 400;
+        }
+        
+        .counter {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            margin-bottom: 40px;
+            display: inline-block;
+        }
+        
+        .counter h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        
+        .counter-number {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        /* Анимированный цветок */
+        .flower-container {
+            margin: 40px auto;
+            width: 150px;
+            height: 250px;
+            position: relative;
+            opacity: 0;
+            transform: scale(0.5);
+            animation: growFlower 3s forwards;
+            animation-delay: 0.5s;
+        }
+        
+        @keyframes growFlower {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        .flower-path {
+            fill: #ff8fa3;
+        }
+        
+        /* Секции */
+        .section {
+            padding: 100px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 60px;
+            position: relative;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--gradient);
+            border-radius: 2px;
+        }
+        
+        /* Галерея */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+        
+        .gallery-item {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            height: 300px;
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+        
+        .gallery-item i {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+        
+        .gallery-item span {
+            font-size: 1.2rem;
+            font-weight: 500;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Стихи */
+        .poem {
+            background: white;
+            border-radius: 20px;
+            padding: 60px;
+            box-shadow: var(--shadow);
+            margin: 60px 0;
+            text-align: center;
+            position: relative;
+        }
+        
+        .poem:before {
+            content: '"';
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            font-size: 6rem;
+            font-family: 'Playfair Display', serif;
+            color: var(--accent);
+            opacity: 0.2;
+            line-height: 1;
+        }
+        
+        .poem p {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            font-style: italic;
+            color: var(--dark);
+            line-height: 1.8;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* Воспоминания */
+        .memories {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .memory-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .memory-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+        
+        .memory-content {
+            padding: 25px;
+        }
+        
+        .memory-date {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .memory-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        .memory-text {
+            color: #666;
+            margin-bottom: 0;
+        }
+        
+        /* Футер */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 0 30px;
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .footer-heart {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin: 0 5px;
+        }
+        
+        .footer-text {
+            margin-top: 20px;
+            opacity: 0.8;
+        }
+        
+        /* Анимации */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .floating {
+            animation: float 5s ease-in-out infinite;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 992px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .memories {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 0;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                height: 100vh;
+                width: 70%;
+                flex-direction: column;
+                background: white;
+                padding: 100px 20px 40px;
+                box-shadow: -5px 0 25px rgba(0, 0, 0, 0.1);
+                transition: right 0.4s ease;
+                z-index: 999;
+            }
+            
+            .nav-links.active {
+                right: 0;
+            }
+            
+            .nav-links li {
+                margin: 15px 0;
+            }
+            
+            .hamburger {
+                display: flex;
+                z-index: 1000;
+            }
+            
+            .hamburger.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+            
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .hamburger.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(7px, -6px);
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .counter-number {
+                font-size: 2.5rem;
+            }
+            
+            .section {
+                padding: 70px 0;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+            
+            .poem {
+                padding: 40px 30px;
+            }
+            
+            .poem p {
+                font-size: 1.1rem;
+            }
+            
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+            
+            .gallery-item {
+                height: 250px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .counter {
+                padding: 20px;
+            }
+            
+            .counter h2 {
+                font-size: 1.5rem;
+            }
+            
+            .counter-number {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .flower-container {
+                width: 120px;
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Навигация -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">Навсегда</a>
+            <ul class="nav-links">
+                <li><a href="#love">Любовь</a></li>
+                <li><a href="#gallery">Галерея</a></li>
+                <li><a href="#memories">Воспоминания</a></li>
+                <li><a href="#poem">Стихи</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Герой секция -->
+    <section class="hero" id="love">
+        <div class="container hero-content">
+            <h1 class="hero-title">Наша история</h1>
+            <p class="hero-subtitle">Каждый день с тобой — это новая страница нашей прекрасной истории</p>
+            
+            <!-- Анимированный цветок -->
+            <div class="flower-container">
+                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="85.11px"
+                     height="173.58px" viewBox="0 0 85.11 173.58" style="enable-background:new 0 0 85.11 173.58;" xml:space="preserve">
+                <path class="flower-path" d="M66.7,94.49c-3.45,1-8.82,2.87-10.5,6.33c-1.7,0.99-3.19,2.21-4.66,3.62c3.95-7.18,8.52-14.18,11.36-21.7
+                    c0.21-0.17,0.41-0.34,0.59-0.52c1.77-1.78,3.39-4.54,3.82-7.21c0.57,1.13,1.29,2.19,2.04,3.17c1.47,1.93,4.21,4.77,6.91,3.36
+                    c2.98-1.55,2.59-5.55,0.8-7.81c-1.36-1.72-3.41-3.18-5.61-4.02c0.65-0.03,1.3-0.06,1.95-0.15c1.82-0.26,3.61-0.65,5.37-1.18
+                    c2.52-0.76,7.02-2.52,6.28-5.95c-1.28-5.93-8.87-3.73-13.6-0.24c2.79-4.75,5.16-10.93-1.2-11.46c-4-0.33-5.51,6.17-5.92,10.84
+                    c-0.82-1.56-1.86-3.07-2.74-4.4c-1.21-1.81-3.27-4.83-5.84-4.35c-3.37,0.64-2.57,5.01-1.73,7.26c0.4,1.07,0.96,2.04,1.63,2.93
+                    c-2.9-0.06-5.3,1.02-5.73,4.55c-0.39,3.19,3.4,4.68,5.84,4.96c1.42,0.16,3.21,0.08,4.89-0.32c-0.84,1.12-1.52,2.42-2.05,3.35
+                    c-1.08,1.9-2.9,5.36-1.17,7.40c0.79,0.93,1.83,1.16,2.87,1c-2,4.94-4.38,9.72-7,14.62c-1.14,2.12-2.54,4.44-3.92,6.89
+                    c0.09-1.54,0.06-3.09-0.06-4.66c0.3-0.39,0.69-0.73,1.02-1.23c4.24-6.76,2.41-13.06-1.95-19.94c-2.36,9-6.93,14.47-0.04,22.37
+                    c0.14,1.56,0.26,3.12,0.34,4.68c-1.4,2.55-2.73,5.21-3.66,7.87c-0.26-5.82-0.97-11.65-2.05-17.38c-1.7-8.97-4.17-17.76-6.64-26.54
+                    c0.17-2.44,1.19-4.63,2.49-6.74c0.36-0.09,0.72-0.18,1.08-0.3c7.68-2.06,13.98-8.71,10.31-17.65c-3.9,3.55-10.54,3.67-11.8,9.97
+                    c-0.51,2.56-0.21,5.2-0.7,7.86c-0.83,1.51-1.56,3.12-1.95,4.79c-1.14-4.09-2.28-8.19-3.31-12.3c-1.22-4.84-2.57-10.61-2.85-16.28
+                    c0.94,0.3,2.05,0.22,3.2-0.41c2.53-1.39,3.42-4.92,4.05-7.49c0.02-0.08,0.04-0.15,0.06-0.23c0.58,2.15,1.63,4.23,2.74,5.65
+                    c1.3,1.66,5.36,5.37,7.46,2.71c1.67-2.12-0.06-5.54-0.99-7.61c-0.59-1.3-1.29-2.59-2.19-3.7c-0.91-1.13-2.23-1.68-3.44-2.37
+                    c-0.06-0.08-0.13-0.16-0.19-0.24c4.22,0.82,14.34,3.21,15.51-1.13c0.75-2.77-2.47-4.88-4.65-5.67c-3.22-1.17-7.13,0.06-10.12,1.78
+                    c2.58-2.13,5.82-3.55,7.82-6.3c1.93-2.66,2.16-6.42-1.06-8.17c-2.72-1.48-5.72,0.68-7.32,2.75c-0.8,1.04-1.44,2.2-1.96,3.43
+                    c0.53-2.28,0.9-4.59,0.6-7.10c-0.25-2.15-2.8-7.7-5.76-5.22c-2.66,2.23-3.49,7.13-2.82,11.60c-0.7-1.46-1.57-2.82-2.55-4.11
+                    c-1.65-2.18-4.94-5.07-7.52-2.47c-2.16,2.17,0.7,6.21,1.97,8.03c0.82,1.18,1.7,2.27,2.65,3.25c-4.02-0.35-7.94,0.36-9.7,3.05
+                    c-2.18,3.34,2.19,6.92,4.95,7.69c2.57,0.71,5.76,0.47,8.67-0.34c-1.38,2.47-2.14,5.58-1.76,8.30c-0.22,1.22,0.06,2.31,0.66,3.12
+                    c0.04,2.6,0.30,5.20,0.67,7.65c1.84,12.36,5.89,24.34,9.05,36.40c-0.74-0.92-1.54-1.81-2.34-2.69c-0.32-0.35-0.65-0.68-0.96-1.03
+                    c-0.63-1.43-0.97-2.86-1.41-4.40C28.08,58.42,13.87,58.88,0,53.37c4.58,6.99,5.62,17.88,14.10,21.55c6.07,2.64,14.10,0.46,19.60,5.16
+                    l0.03-0.03c1.57,1.69,3.08,3.42,4.52,5.21c3.61,14.30,6.03,28.86,4.61,43.64c-1,10.48-4.31,20.15-9.17,29.11
+                    c-0.30-5.87-1.26-11.74-2.75-17.50c0.57-1.59,1.20-3.28,1.79-5.01c2.67-0.91,5.95-2.19,6.59-5.10c0.69-2.87-0.80-10.89-2.41-13.06
+                    c-1.95,3.32-6.07,6.76-7.33,10.20c-1.01,2.70,0.74,5.62,2.10,8c-0.38,1.26-0.74,2.51-1.05,3.78c-1.78-6.57-4.23-12.98-7.17-19.08
+                    c0.12-0.37,0.21-0.73,0.25-1.06c0.24-2.05-0.34-4.37-1.53-6.19c2.93,2.43,6,6.24,9.54,2.96c1.81-1.68-0.25-4-1.64-5.01
+                    c-2.02-1.47-4.56-1.88-7.02-2.19c1.58-0.53,3.33-0.77,4.82-1.35c1.74-0.69,4.08-2.60,2.94-4.75c-1.01-1.91-3.65-1.32-5.32-0.84
+                    c-1.61,0.47-3.29,1.39-4.65,2.60c0.13-0.48,0.24-0.97,0.35-1.46c0.13-0.56,0.28-1.08,0.45-1.59c0.56-1.46,1.09-2.92,1.41-4.45
+                    c0.22-1.07-0.66-2.06-1.77-1.77c-4.69,1.22-5.42,5.10-5.39,9.13c-0.99-3.59-1.68-9.07-5.76-8.30c-2.61,0.49-1.88,4.48-1.46,6.17
+                    c0.50,1.99,1.47,3.60,2.86,4.75c-2.27,0.42-4.77,1.74-6.12,3.59c-1.10,1.51-1.14,3.88,0.10,5.33c1.21,1.42,3.19,1.36,4.86,0.98
+                    c1.38-0.31,3.35-1.10,4.96-2.24c-0.21,1.21-0.19,2.44,0.12,3.81c0.45,2.04,1.45,4.47,3.60,5.16c1.42,0.46,2.65-0.33,3.49-1.48
+                    c1.84,4.33,3.65,8.67,5.17,13.14c1.28,3.77,2.30,7.60,3.13,11.48c-0.87-1.24-2.01-2.32-3.15-3.25c-0.41-0.59-0.71-1.24-1.08-1.89
+                    c-1.83-3.44-2.87-5.73-6.88-6.76c-4.93-1.26-9.63-1.60-14.44-3.44c1.72,1.83,3.78,3.21,5.62,4.93c3.90,3.44,6.53,7.45,12.15,7.91
+                    c1.38,0.07,2.80-0.22,4.10,0.05c1.69,1.32,3.17,2.86,4.19,4.93c0.66,3.41,1.17,6.84,1.57,10.30c-2.60,4.60-5.61,9.02-8.93,13.25
+                    c-0.40,0.52,0.25,1.23,0.74,0.74c6.69-6.64,11.50-14.28,14.77-22.49c3.28-3.38,7.39-5.92,11.01-8.98c1-0.32,2.08-0.51,3.15-0.78
+                    c4.58-1.26,10.89-1.26,13.06-6.30c1.60-3.55,0.23-7.79,0.34-11.46c0-4.24,1.15-8.37,1.26-12.61c-2.52,2.18-4.93,3.32-7.91,4.47
+                    c-11.88,4.59-5.85,18.67-11.37,26.69c-2.97,2.47-6.35,4.62-8.96,7.43c3.51-9.43,5.03-19.58,5.05-29.85
+                    c1.17-4.53,3.10-8.83,5.31-13.03c1.55-1.22,2.85-2.71,4.42-3.92c0.44-0.34,0.92-0.64,1.41-0.91c9.45,3.51,26.72-1.31,27.97-12.68
+                    C83.32,93.91,70.48,93.34,66.7,94.49z"/>
+                </svg>
+            </div>
+            
+            <div class="counter floating">
+                <h2>Мы вместе уже</h2>
+                <div class="counter-number" id="daysCounter">0</div>
+                <p>дней с 2 марта 2024 года</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Галерея -->
+    <section class="section" id="gallery">
+        <div class="container">
+            <h2 class="section-title">Наши моменты</h2>
+            <div class="gallery">
+                <div class="gallery-item">
+                    <i class="fas fa-heart"></i>
+                    <span>Первое свидание</span>
+                </div>
+                <div class="gallery-item">
+                    <i class="fas fa-sun"></i>
+                    <span>Закат вместе</span>
+                </div>
+                <div class="gallery-item">
+                    <i class="fas fa-plane"></i>
+                    <span>Путешествия</span>
+                </div>
+                <div class="gallery-item">
+                    <i class="fas fa-laugh"></i>
+                    <span>Смех и радость</span>
+                </div>
+                <div class="gallery-item">
+                    <i class="fas fa-hand-holding-heart"></i>
+                    <span>Наши руки</span>
+                </div>
+                <div class="gallery-item">
+                    <i class="fas fa-gift"></i>
+                    <span>Сюрпризы</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Стихи -->
+    <section class="section" id="poem">
+        <div class="container">
+            <h2 class="section-title">Тебе</h2>
+            <div class="poem">
+                <p>Ты — мое солнце в пасмурный день,<br>
+                Мой лучик света в темноте ночной.<br>
+                Ты — тайный шепот, что милей всех слов,<br>
+                И смысл existence, данный мне судьбой.</p>
+                <p>Твоя улыбка — как весенний рассвет,<br>
+                Что будит ото сна всю землю вокруг.<br>
+                В твоих глазах — весь мир, и в нем ответ<br>
+                На все мои сомненья, тревоги и испуг.</p>
+                <p>Любовь моя к тебе — как океан без границ,<br>
+                Где каждая волна — признание в любви.<br>
+                И даже если между нами дальние границы,<br>
+                Сердца наши вместе, поверь.</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Воспоминания -->
+    <section class="section" id="memories">
+        <div class="container">
+            <h2 class="section-title">Памятные моменты</h2>
+            <div class="memories">
+                <div class="memory-card">
+                    <div class="memory-content">
+                        <span class="memory-date">02.03.2024</span>
+                        <h3 class="memory-title">Наша первая встреча</h3>
+                        <p class="memory-text">День, когда все началось. Помню твою улыбку и как ты смущалась. Это был самый важный день в моей жизни.</p>
+                    </div>
+                </div>
+                
+                <div class="memory-card">
+                    <div class="memory-content">
+                        <span class="memory-date">15.05.2024</span>
+                        <h3 class="memory-title">Первое путешествие</h3>
+                        <p class="memory-text">Маленькое приключение, которое показало, как здорово мы понимаем друг друга. Эти дни были наполнены смехом и счастьем.</p>
+                    </div>
+                </div>
+                
+                <div class="memory-card">
+                    <div class="memory-content">
+                        <span class="memory-date">17.01.2024</span>
+                        <h3 class="memory-title">Твой день рождения</h3>
+                        <p class="memory-text">Как я старался сделать этот день особенным, и как ты была счастлива. Видеть твою радость — лучший подарок для меня.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Футер -->
+    <footer>
+        <div class="container footer-content">
+            <h3>Создано с <span class="footer-heart">❤</span> специально для тебя</h3>
+            <p class="footer-text">Расстояние не имеет значения, когда сердца бьются в унисон</p>
+        </div>
+    </footer>
+
+    <script>
+        // Расчет количества дней с начала отношений
+        function calculateDays() {
+            const startDate = new Date(2024, 2, 2); // 2 марта 2024 (месяцы в JS: 0-11)
+            const currentDate = new Date();
+            const timeDiff = currentDate - startDate;
+            const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+            return daysDiff;
+        }
+        
+        // Обновление счетчика дней
+        function updateCounter() {
+            const days = calculateDays();
+            document.getElementById('daysCounter').textContent = days;
+        }
+        
+        // Плавная прокрутка для навигации
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Закрытие меню на мобильных устройствах после клика
+                    if (navLinks.classList.contains('active')) {
+                        hamburger.classList.remove('active');
+                        navLinks.classList.remove('active');
+                    }
+                }
+            });
+        });
+        
+        // Скрытие навигации при прокрутке
+        let lastScrollTop = 0;
+        const navbar = document.querySelector('.navbar');
+        
+        window.addEventListener('scroll', function() {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (scrollTop > lastScrollTop && scrollTop > 200) {
+                navbar.classList.add('hidden');
+            } else {
+                navbar.classList.remove('hidden');
+            }
+            
+            lastScrollTop = scrollTop;
+        });
+        
+        // Гамбургер меню
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+        
+        // Инициализация при загрузке страницы
+        window.onload = function() {
+            updateCounter();
+            
+            // Обновление счетчика каждую минуту
+            setInterval(updateCounter, 60000);
+            
+            // Анимация появления элементов при прокрутке
+            const animateOnScroll = function() {
+                const elements = document.querySelectorAll('.gallery-item, .memory-card, .poem');
+                
+                elements.forEach(element => {
+                    const elementPosition = element.getBoundingClientRect().top;
+                    const screenPosition = window.innerHeight / 1.3;
+                    
+                    if (elementPosition < screenPosition) {
+                        element.style.opacity = '1';
+                        element.style.transform = 'translateY(0)';
+                    }
+                });
+            };
+            
+            // Инициализация стилей для анимации
+            const animatedElements = document.querySelectorAll('.gallery-item, .memory-card, .poem');
+            animatedElements.forEach(element => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(50px)';
+                element.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+            });
+            
+            window.addEventListener('scroll', animateOnScroll);
+            // Первый вызов для видимых элементов
+            animateOnScroll();
+        };
+    </script>
+</body>
+</html>
