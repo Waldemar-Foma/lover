@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Наша история любви — локальные медиа</title>
-  <!-- ИКОНКИ/ШРИФТЫ можно оставить как было; при желании заменить на локальные -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
@@ -52,6 +51,26 @@
     .section{padding:90px 0}
     .section-title{text-align:center;font-size:2.6rem;margin-bottom:46px;position:relative}
     .section-title:after{content:'';position:absolute;bottom:-14px;left:50%;transform:translateX(-50%);width:80px;height:4px;background:var(--gradient);border-radius:2px}
+
+    /* Секция письма */
+    .letter-section{background:linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" opacity="0.03"><rect x="20" y="20" width="60" height="60" fill="%23ff4d6d"/></svg>');background-size:300px;padding:100px 0;text-align:center}
+    .letter-intro{max-width:700px;margin:0 auto 40px;font-size:1.1rem;line-height:1.8}
+    .letter-button{background:var(--gradient);color:white;border:none;padding:16px 40px;border-radius:50px;font-size:1.1rem;font-weight:600;cursor:pointer;transition:var(--transition);box-shadow:var(--shadow);position:relative;overflow:hidden}
+    .letter-button:hover{transform:translateY(-3px);box-shadow:0 12px 25px rgba(255,77,109,0.25)}
+    .letter-button:active{transform:translateY(0)}
+    .letter-button::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);transition:0.5s}
+    .letter-button:hover::before{left:100%}
+
+    /* Модальное окно письма */
+    .letter-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:2000;opacity:0;transition:opacity .4s ease;align-items:center;justify-content:center;padding:20px}
+    .letter-modal.active{display:flex;opacity:1}
+    .letter-modal-content{background:#fff;border-radius:12px;max-width:700px;width:100%;max-height:85vh;overflow:auto;position:relative;transform:scale(0.9);transition:transform .4s ease;box-shadow:0 25px 50px rgba(0,0,0,0.3);padding:40px 30px;border:2px solid var(--accent)}
+    .letter-modal.active .letter-modal-content{transform:scale(1)}
+    .close-letter-modal{position:absolute;top:15px;right:15px;font-size:1.8rem;color:var(--dark);cursor:pointer;width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:var(--transition)}
+    .close-letter-modal:hover{background:rgba(255,77,109,0.1);color:var(--primary)}
+    .letter-content{font-size:1.05rem;line-height:1.8;text-align:left;font-family:'Montserrat', sans-serif}
+    .letter-content p{margin-bottom:20px}
+    .letter-signature{text-align:right;margin-top:30px;font-style:italic;color:var(--primary);font-weight:500}
 
     /* Галерея */
     .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:22px;margin-top:24px}
@@ -111,6 +130,7 @@
       .hero-title{font-size:3rem}
       .gallery{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
       .memories{grid-template-columns:1fr}
+      .letter-modal-content{padding:30px 20px}
     }
     @media (max-width:768px){
       .nav-links{position:fixed;top:0;right:-100%;height:100vh;width:74%;flex-direction:column;background:#fff;padding:96px 20px 40px;box-shadow:-5px 0 25px rgba(0,0,0,.1);transition:right .4s ease;z-index:999}
@@ -126,11 +146,14 @@
       .section{padding:70px 0}
       .poem{padding:38px 26px}
       .media-container{height:52vh}
+      .letter-section{padding:70px 0}
+      .letter-modal-content{padding:25px 15px}
     }
     @media (max-width:480px){
       .hero-title{font-size:2rem}
       .modal-content{border-radius:10px}
       .gallery-thumb{height:220px}
+      .letter-button{padding:14px 30px;font-size:1rem}
     }
   </style>
 </head>
@@ -141,6 +164,7 @@
       <a href="#" class="logo">Навсегда</a>
       <ul class="nav-links" id="navLinks">
         <li><a href="#love">Любовь</a></li>
+        <li><a href="#letter">Письмо</a></li>
         <li><a href="#gallery">Галерея</a></li>
         <li><a href="#memories">Воспоминания</a></li>
         <li><a href="#poem">Стихи</a></li>
@@ -161,21 +185,21 @@
                     c0.21-0.17,0.41-0.34,0.59-0.52c1.77-1.78,3.39-4.54,3.82-7.21c0.57,1.13,1.29,2.19,2.04,3.17c1.47,1.93,4.21,4.77,6.91,3.36
                     c2.98-1.55,2.59-5.55,0.8-7.81c-1.36-1.72-3.41-3.18-5.61-4.02c0.65-0.03,1.3-0.06,1.95-0.15c1.82-0.26,3.61-0.65,5.37-1.18
                     c2.52-0.76,7.02-2.52,6.28-5.95c-1.28-5.93-8.87-3.73-13.6-0.24c2.79-4.75,5.16-10.93-1.2-11.46c-4-0.33-5.51,6.17-5.92,10.84
-                    c-0.82-1.56-1.86-3.07-2.74-4.4c-1.21-1.81-3.27-4.83-5.84-4.35c-3.37,0.64-2.57,5.01-1.73,7.26c0.4,1.07,0.96,2.04,1.63,2.93
-                    c-2.9-0.06-5.3,1.02-5.73,4.55c-0.39,3.19,3.4,4.68,5.84,4.96c1.42,0.16,3.21,0.08,4.89-0.32c-0.84,1.12-1.52,2.42-2.05,3.35
+                    c-0.82-1.56-1.86-3.07-2.74-4.4c-1.21-1.81-3.27-4.83-5.84-4.35c-3.37,0.64-2.57,5.01-1.73,7.26c0.40,1.07,0.96,2.04,1.63,2.93
+                    c-2.9-0.06-5.3,1.02-5.73,4.55c-0.39,3.19,3.40,4.68,5.84,4.96c1.42,0.16,3.21,0.08,4.89-0.32c-0.84,1.12-1.52,2.42-2.05,3.35
                     c-1.08,1.9-2.9,5.36-1.17,7.40c0.79,0.93,1.83,1.16,2.87,1c-2,4.94-4.38,9.72-7,14.62c-1.14,2.12-2.54,4.44-3.92,6.89
-                    c0.09-1.54,0.06-3.09-0.06-4.66c0.3-0.39,0.69-0.73,1.02-1.23c4.24-6.76,2.41-13.06-1.95-19.94c-2.36,9-6.93,14.47-0.04,22.37
-                    c0.14,1.56,0.26,3.12,0.34,4.68c-1.4,2.55-2.73,5.21-3.66,7.87c-0.26-5.82-0.97-11.65-2.05-17.38c-1.7-8.97-4.17-17.76-6.64-26.54
-                    c0.17-2.44,1.19-4.63,2.49-6.74c0.36-0.09,0.72-0.18,1.08-0.3c7.68-2.06,13.98-8.71,10.31-17.65c-3.9,3.55-10.54,3.67-11.8,9.97
-                    c-0.51,2.56-0.21,5.2-0.7,7.86c-0.83,1.51-1.56,3.12-1.95,4.79c-1.14-4.09-2.28-8.19-3.31-12.3c-1.22-4.84-2.57-10.61-2.85-16.28
-                    c0.94,0.3,2.05,0.22,3.2-0.41c2.53-1.39,3.42-4.92,4.05-7.49c0.02-0.08,0.04-0.15,0.06-0.23c0.58,2.15,1.63,4.23,2.74,5.65
-                    c1.3,1.66,5.36,5.37,7.46,2.71c1.67-2.12-0.06-5.54-0.99-7.61c-0.59-1.3-1.29-2.59-2.19-3.7c-0.91-1.13-2.23-1.68-3.44-2.37
+                    c0.09-1.54,0.06-3.09-0.06-4.66c0.30-0.39,0.69-0.73,1.02-1.23c4.24-6.76,2.41-13.06-1.95-19.94c-2.36,9-6.93,14.47-0.04,22.37
+                    c0.14,1.56,0.26,3.12,0.34,4.68c-1.40,2.55-2.73,5.21-3.66,7.87c-0.26-5.82-0.97-11.65-2.05-17.38c-1.7-8.97-4.17-17.76-6.64-26.54
+                    c0.17-2.44,1.19-4.63,2.49-6.74c0.36-0.09,0.72-0.18,1.08-0.30c7.68-2.06,13.98-8.71,10.31-17.65c-3.90,3.55-10.54,3.67-11.80,9.97
+                    c-0.51,2.56-0.21,5.20-0.70,7.86c-0.83,1.51-1.56,3.12-1.95,4.79c-1.14-4.09-2.28-8.19-3.31-12.30c-1.22-4.84-2.57-10.61-2.85-16.28
+                    c0.94,0.30,2.05,0.22,3.20-0.41c2.53-1.39,3.42-4.92,4.05-7.49c0.02-0.08,0.04-0.15,0.06-0.23c0.58,2.15,1.63,4.23,2.74,5.65
+                    c1.30,1.66,5.36,5.37,7.46,2.71c1.67-2.12-0.06-5.54-0.99-7.61c-0.59-1.30-1.29-2.59-2.19-3.70c-0.91-1.13-2.23-1.68-3.44-2.37
                     c-0.06-0.08-0.13-0.16-0.19-0.24c4.22,0.82,14.34,3.21,15.51-1.13c0.75-2.77-2.47-4.88-4.65-5.67c-3.22-1.17-7.13,0.06-10.12,1.78
-                    c2.58-2.13,5.82-3.55,7.82-6.3c1.93-2.66,2.16-6.42-1.06-8.17c-2.72-1.48-5.72,0.68-7.32,2.75c-0.8,1.04-1.44,2.2-1.96,3.43
-                    c0.53-2.28,0.9-4.59,0.6-7.10c-0.25-2.15-2.8-7.7-5.76-5.22c-2.66,2.23-3.49,7.13-2.82,11.60c-0.7-1.46-1.57-2.82-2.55-4.11
-                    c-1.65-2.18-4.94-5.07-7.52-2.47c-2.16,2.17,0.7,6.21,1.97,8.03c0.82,1.18,1.7,2.27,2.65,3.25c-4.02-0.35-7.94,0.36-9.7,3.05
+                    c2.58-2.13,5.82-3.55,7.82-6.30c1.93-2.66,2.16-6.42-1.06-8.17c-2.72-1.48-5.72,0.68-7.32,2.75c-0.80,1.04-1.44,2.20-1.96,3.43
+                    c0.53-2.28,0.90-4.59,0.60-7.10c-0.25-2.15-2.80-7.70-5.76-5.22c-2.66,2.23-3.49,7.13-2.82,11.60c-0.70-1.46-1.57-2.82-2.55-4.11
+                    c-1.65-2.18-4.94-5.07-7.52-2.47c-2.16,2.17,0.70,6.21,1.97,8.03c0.82,1.18,1.70,2.27,2.65,3.25c-4.02-0.35-7.94,0.36-9.70,3.05
                     c-2.18,3.34,2.19,6.92,4.95,7.69c2.57,0.71,5.76,0.47,8.67-0.34c-1.38,2.47-2.14,5.58-1.76,8.30c-0.22,1.22,0.06,2.31,0.66,3.12
-                    c0.04,2.6,0.30,5.20,0.67,7.65c1.84,12.36,5.89,24.34,9.05,36.40c-0.74-0.92-1.54-1.81-2.34-2.69c-0.32-0.35-0.65-0.68-0.96-1.03
+                    c0.04,2.60,0.30,5.20,0.67,7.65c1.84,12.36,5.89,24.34,9.05,36.40c-0.74-0.92-1.54-1.81-2.34-2.69c-0.32-0.35-0.65-0.68-0.96-1.03
                     c-0.63-1.43-0.97-2.86-1.41-4.40C28.08,58.42,13.87,58.88,0,53.37c4.58,6.99,5.62,17.88,14.10,21.55c6.07,2.64,14.10,0.46,19.60,5.16
                     l0.03-0.03c1.57,1.69,3.08,3.42,4.52,5.21c3.61,14.30,6.03,28.86,4.61,43.64c-1,10.48-4.31,20.15-9.17,29.11
                     c-0.30-5.87-1.26-11.74-2.75-17.50c0.57-1.59,1.20-3.28,1.79-5.01c2.67-0.91,5.95-2.19,6.59-5.10c0.69-2.87-0.80-10.89-2.41-13.06
@@ -192,7 +216,7 @@
                     c-0.40,0.52,0.25,1.23,0.74,0.74c6.69-6.64,11.50-14.28,14.77-22.49c3.28-3.38,7.39-5.92,11.01-8.98c1-0.32,2.08-0.51,3.15-0.78
                     c4.58-1.26,10.89-1.26,13.06-6.30c1.60-3.55,0.23-7.79,0.34-11.46c0-4.24,1.15-8.37,1.26-12.61c-2.52,2.18-4.93,3.32-7.91,4.47
                     c-11.88,4.59-5.85,18.67-11.37,26.69c-2.97,2.47-6.35,4.62-8.96,7.43c3.51-9.43,5.03-19.58,5.05-29.85
-                    c1.17-4.53,3.10-8.83,5.31-13.03c1.55-1.22,2.85-2.71,4.42-3.92c0.44-0.34,0.92-0.64,1.41-0.91c9.45,3.51,26.72-1.31,27.97-12.68
+                    c1.17-4.53,3.10-8.83,5.31-13.03c1.57-1.22,2.85-2.71,4.42-3.92c0.44-0.34,0.92-0.64,1.41-0.91c9.45,3.51,26.72-1.31,27.97-12.68
                     C83.32,93.91,70.48,93.34,66.7,94.49z"/>
                 </svg>
       </div>
@@ -201,6 +225,15 @@
         <div class="counter-number" id="daysCounter">0</div>
         <p>дней с 2 марта 2024 года</p>
       </div>
+    </div>
+  </section>
+
+  <!-- Письмо -->
+  <section class="section letter-section" id="letter">
+    <div class="container">
+      <h2 class="section-title">Письмо</h2>
+      <p class="letter-intro reveal">Я не смог отразить тебе всего что хотел тебе сказать на бумаге, мне было очень тяжело тебе это все писать, руки дрожали, слезы текли, и я не понимал что нас ждет дальше, собственно, не понимаю до сих пор. Мы со всем справимся❤❤❤</p>
+      <button class="letter-button reveal" id="openLetterBtn">Открыть письмо</button>
     </div>
   </section>
 
@@ -216,319 +249,271 @@
   <section class="section" id="poem">
     <div class="container">
       <h2 class="section-title">Тебе</h2>
-      <div class="poem reveal">
-        <p>Ты — мое солнце в пасмурный день,<br>Мой лучик света в темноте ночной.<br>Ты — тайный шепот, что милей всех слов,<br>И смысл existence, данный мне судьбой.</p>
-        <p>Твоя улыбка — как весенний рассвет,<br>Что будит ото сна всю землю вокруг.<br>В твоих глазах — весь мир, и в нем ответ<br>На все мои сомненья, тревоги и испуг.</p>
-        <p>Любовь моя к тебе — как океан без границ,<br>Где каждая волна — признание в любви.<br>И даже если между нами дальние границы,<br>Сердца наши вместе — и всегда живы.</p>
+       <div class="poem reveal">
+        <p>Ты — мое солнце в пасмурный день,<br>Мой лучик света в темноте ночной.<br>Ты — тайный шепот, что милей всех слов,<br>И смысл жизни, данный мне судьбой.</p>
+        <p>Твоя улыбка — как весенний рассвет,<br>Что будит ото сна всю землю в круге.<br>В твоих глазах — весь мир, и в нем ответ<br>На все мои сомненья, тревоги и испуг.</p>
+        <p>Любовь моя к тебе — как океан без границ,<br>Где каждая волна — признание в любви.<br>И даже если между нами дальние границы,<br>Сердца наши вместе — и живы всегда.</p>
       </div>
     </div>
   </section>
 
-  <!-- Воспоминания: Памятные моменты -->
+  <!-- Воспоминания -->
   <section class="section" id="memories">
     <div class="container">
-      <h2 class="section-title">Памятные моменты</h2>
-      <div class="memories" id="memoriesContainer"></div>
+      <h2 class="section-title">Наши воспоминания</h2>
+      <div id="memoriesContainer" class="memories"></div>
     </div>
   </section>
 
   <!-- Футер -->
   <footer>
-    <div class="container footer-content">
-      <h3>Создано с <span class="footer-heart">❤</span> специально для тебя</h3>
-      <p class="footer-text">Расстояние не имеет значения, когда сердца бьются в унисон</p>
+    <div class="container">
+      <div class="footer-content">
+        <p>Создано с <span class="footer-heart">❤</span> специально для тебя</p>
+        <p class="footer-text">© 2025 Навсегда твой</p>
+      </div>
     </div>
   </footer>
 
-  <!-- Модальное окно галереи -->
-  <div class="modal" id="galleryModal" aria-hidden="true" role="dialog">
-    <div class="modal-content">
-      <span class="close-modal" data-close>&times;</span>
-      <div class="media-container">
-        <img id="galleryMainMedia" alt="" loading="lazy" decoding="async" />
-        <div class="gallery-nav">
-          <div class="gallery-nav-btn" id="prevBtn"><i class="fas fa-chevron-left"></i></div>
-          <div class="gallery-nav-btn" id="nextBtn"><i class="fas fa-chevron-right"></i></div>
-        </div>
+  <!-- Модальное окно письма -->
+  <div class="letter-modal" id="letterModal">
+    <div class="letter-modal-content">
+      <span class="close-letter-modal" id="closeLetterModal">&times;</span>
+      <div class="letter-content">
+        <p>Зайчик, я немного нарушу договор, письма будет два, не только от руки, но и интерактив, как обещал, ты меня знаешь</p>
+        <p>Я не смог выразить все что чувствую к тебе в том письме, хотел сделать красиво и с чувствами, но не получилось, планы выполнены были не до конца, но надеюсь тебе понравится.</p>
+        <p>Суть письма была в том чтобы пожелать друг другу "ЧТО-ТО", но у нас уже все есть, у нас есть мы, поддержка и опора на которую можно положиться..Я тебе просто хочу сказать, чтобы ты аккуратнее выбирала свое окружение потому что я очень переживаю и волнуюсь за тебя💝</p>
+        <p>Я до последнего верил что мы с тобой будем учиться в одном городе, но все очень сильно изменилось буквально за неделю..Я очень хочу чтобы у тебя все получилось, все что ты задумала сбылось, и мы были вместе. Желаю тебе успехов в учебе, исполнение всех планов и жесткой продуктивности, чтобы делала то, что задумала, но не забывай отдыхать!😡</p>
+        <p>Я обещаю что буду тебя всегда поддерживать.. Мне часто бывает больше времени для принятия, но я это делаю все искренне, сложно мне что то изменить по щелчку пальцев, поэтому бывают недопонимая, прости меня за это, но я общеаю что их будет меньше, и мы со всем с тобой справимся! Веришь? я надеюсь что ты кивнула</p>
+        <p>Наверняка читая бумажную версию письма ты еще не успокоилась до конца, поэтому вытирай слезки и топай писать как сильно меня любишь❤ Хихик) Мне от этого будет всегда приятно, каждое твое признание это стрела купидона в мое сердечко, и так я понимаю что я тебе нужен💘</p>
+        <p>Люблю тебя, зепик ты мой сладенький, очень сильно жду нашей встречи с тобой, которая надеюсь произойдет очень скоро!💖💖💖💖💖💖💖💖💖💖💖💖💖💖💖💖💖💖💖💖💖💖💖💖💖💖💖💖💖💖💖💖💖</p>
+        <p>Давай хватит плакать, слезки вытирай и всьо, люблю тебя (очень очень очень) * 100000000000 сильно(это короче очень очень много, воть)</p>
+        <p class="letter-signature">Твой зайка😎 (Не плакай, Хихикус Хихик Хихикусович все видит🧐)</p>
       </div>
-      <div class="gallery-thumbnails" id="galleryThumbnails"></div>
     </div>
   </div>
 
-  <!-- Модалка воспоминаний -->
-  <div class="modal" id="memoryModal" aria-hidden="true" role="dialog">
+  <!-- Модальное окно для галереи -->
+  <div class="modal" id="galleryModal">
     <div class="modal-content">
-      <span class="close-modal" data-close>&times;</span>
-      <div class="media-container" style="height:340px;background:#000">
-        <img id="memoryMainImage" alt="" loading="lazy" decoding="async" />
+      <span class="close-modal" id="closeModal">&times;</span>
+      <div class="media-container" id="mediaContainer"></div>
+      <div class="gallery-nav">
+        <div class="gallery-nav-btn" id="prevBtn"><i class="fas fa-chevron-left"></i></div>
+        <div class="gallery-nav-btn" id="nextBtn"><i class="fas fa-chevron-right"></i></div>
       </div>
-      <div class="memory-details" style="padding:22px;max-height:calc(90vh - 340px);overflow:auto">
-        <span class="memory-date" id="memoryModalDate"></span>
-        <h3 class="memory-title" id="memoryModalTitle"></h3>
-        <p class="memory-text" id="memoryModalText"></p>
-      </div>
+      <div class="gallery-thumbnails" id="thumbnails"></div>
     </div>
   </div>
 
   <script>
-    // ==========================
-    // 1) КОНФИГ ДЛЯ ЛОКАЛЬНЫХ ФАЙЛОВ (img/)
-    // ==========================
-    // Положи фото/видео в папку img/ и просто пропиши пути ниже.
-    // Галерея "Наши моменты": сколько ссылок в массиве items — столько и карточек.
-    // Поддерживаются изображения (jpg/png/webp) и видео (mp4). Для видео можно указать постер.
-    const GALLERIES = [
-      {
-        title: 'Первое свидание',
-        cover: 'img/date_cover.jpg', // картинка для превью карточки
-        items: [ // СЮДА ДОБАВЛЯЙ ССЫЛКИ НА МЕДИА ИЗ img/
-          { src: 'img/date_01.jpg' },
-          { src: 'img/date_02.jpg' },
-          { src: 'img/date_03.mp4', type: 'video', poster: 'img/date_poster.jpg' }
-        ]
-      },
-      {
-        title: 'Закат вместе',
-        cover: 'img/sunset_cover.jpg',
-        items: [
-          { src: 'img/sunset_01.jpg' },
-          { src: 'img/sunset_02.jpg' }
-        ]
-      },
-      {
-        title: 'Путешествия',
-        cover: 'img/travel_cover.jpg',
-        items: [
-          { src: 'img/travel_01.jpg' },
-          { src: 'img/travel_02.jpg' },
-          { src: 'img/travel_03.jpg' }
-        ]
-      }
-      // Добавляй новые разделы так же
+    // Данные для галереи и воспоминаний
+    const galleryItems = [
+      { type: 'image', src: 'img/photo1.png', caption: 'Первая фотосессия' },
+      { type: 'image', src: 'img/photo2.jpg', caption: 'Ты кстати вредина💕, а ой, это мы в кафе сидим' },
+      { type: 'image', src: 'img/photo3.jpg', caption: 'А это мы в КВН пошли, смешнявку слушать)' },
+      { type: 'image', src: 'img/photo4.jpg', caption: 'А тута ты в питер на следующий день смоталась(наша первая фотка с поцелуем, которую мы выставили)' },
+      { type: 'image', src: 'img/photo5.jpg', caption: 'А тута мы с тобой на мое мероприятие притопали и нам не очень понравилось' },
+      { type: 'image', src: 'img/photo6.png', caption: 'Алеу оп(эта фотка мне просто нравится)' },
+      
     ];
 
-    // Памятные моменты: по ОДНОЙ фотке на карточку (image)
-    const MEMORIES = [
-      {
-        date: '02.03.2024',
-        title: 'Начало наших отношений',
-        image: 'img/start.jpg', // только одна фотка
-        text: 'День, когда все началось. Помню твою улыбку и как ты не понимала зачем же я тебя поцеловал) Это был самый важный день в моей жизни.'
-      },
-        {
-        date: '26.03.2024',
-        title: 'Твоя поддержка перед моей операцией',
-        image: 'img/operation.jpg',
-        text: 'В этот сложный период ты показала как ты меня ценишь и любишь.'
-      },
-      {
-        date: '17.01.2025',
-        title: 'Твой день рождения',
-        image: 'img/dr.jpg',
-        text: 'Я старался сделать этот день особенным, и как ты была счастлива. Видеть твою радость — лучший подарок для меня.'
-      }
+    const memories = [
+      { date: '2 марта 2024', title: 'Начало наших отношений', text: 'День, когда все началось. Помню твою улыбку и как ты не понимала зачем же я тебя поцеловал) Это был самый важный день в моей жизни.', image: 'img/start.jpg' },
+      { date: '26 марта 2024', title: 'Твоя поддержка перед моей операцией', text: 'В этот сложный период ты показала как ты меня ценишь и любишь.', image: 'img/operation.jpg' },
+      { date: '17 января 2025', title: 'Твой день рождения', text: 'Я старался сделать этот день особенным, и как ты была счастлива. Видеть твою радость — лучший подарок для меня.', image: 'img/dr.jpg' }
     ];
 
-    // ==========================
-    // 2) УТИЛИТЫ
-    // ==========================
-    const $ = (s, r=document) => r.querySelector(s);
-    const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+    // DOM элементы
+    const openLetterBtn = document.getElementById('openLetterBtn');
+    const letterModal = document.getElementById('letterModal');
+    const closeLetterModal = document.getElementById('closeLetterModal');
+    const daysCounter = document.getElementById('daysCounter');
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    const galleryContainer = document.getElementById('galleryContainer');
+    const memoriesContainer = document.getElementById('memoriesContainer');
+    const galleryModal = document.getElementById('galleryModal');
+    const closeModal = document.getElementById('closeModal');
+    const mediaContainer = document.getElementById('mediaContainer');
+    const thumbnails = document.getElementById('thumbnails');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    let currentMediaIndex = 0;
+
+    // Инициализация
+    document.addEventListener('DOMContentLoaded', function() {
+      initCounter();
+      renderGallery();
+      renderMemories();
+      initIntersectionObserver();
+      setupEventListeners();
+    });
 
     // Счетчик дней
-    function calculateDays(){
-      const startDate = new Date(2024, 2, 2); // 2 марта 2024
-      const now = new Date();
-      return Math.floor((now - startDate)/(1000*60*60*24));
+    function initCounter() {
+      const startDate = new Date('2024-03-02');
+      const today = new Date();
+      const diffTime = Math.abs(today - startDate);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      
+      // Анимируем счетчик
+      let count = 0;
+      const interval = setInterval(() => {
+        if (count >= diffDays) {
+          clearInterval(interval);
+          daysCounter.textContent = diffDays;
+        } else {
+          count++;
+          daysCounter.textContent = count;
+        }
+      }, 5);
     }
-    function updateCounter(){ $('#daysCounter').textContent = calculateDays(); }
 
-    // Ленивая загрузка миниатюр
-    function lazyImg(img){
-      const io = new IntersectionObserver((entries,obs)=>{
-        entries.forEach(e=>{
-          if(e.isIntersecting){
-            const el = e.target; el.src = el.dataset.src; el.removeAttribute('data-src'); obs.unobserve(el);
+    // Рендер галереи
+    function renderGallery() {
+      galleryContainer.innerHTML = galleryItems.map((item, index) => `
+        <div class="gallery-item reveal" data-index="${index}">
+          <img src="${item.src}" alt="${item.caption}" class="gallery-thumb">
+          <div class="gallery-caption">${item.caption}</div>
+        </div>
+      `).join('');
+    }
+
+    // Рендер воспоминаний
+    function renderMemories() {
+      memoriesContainer.innerHTML = memories.map(memory => `
+        <div class="memory-card reveal">
+          <div class="memory-image">
+            <img src="${memory.image}" alt="${memory.title}">
+          </div>
+          <div class="memory-content">
+            <span class="memory-date">${memory.date}</span>
+            <h3 class="memory-title">${memory.title}</h3>
+            <p class="memory-text">${memory.text}</p>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Наблюдатель за появлением элементов
+    function initIntersectionObserver() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
           }
         });
-      },{rootMargin:'200px'});
-      io.observe(img);
-    }
+      }, { threshold: 0.1 });
 
-    // Помощник определения типа медиа
-    const isVideo = src => /\.(mp4|webm|ogg)$/i.test(src);
-
-    // ==========================
-    // 3) ГАМБУРГЕР и НАВИГАЦИЯ
-    // ==========================
-    const hamburger = $('#hamburger');
-    const navLinks = $('#navLinks');
-    hamburger?.addEventListener('click',()=>{ hamburger.classList.toggle('active'); navLinks.classList.toggle('active'); });
-    $$('#navLinks a').forEach(a=>a.addEventListener('click',()=>{ navLinks.classList.remove('active'); hamburger.classList.remove('active'); }));
-
-    // ==========================
-    // 4) ГЕНЕРАЦИЯ РАЗМЕТКИ ИЗ СЛОВАРЕЙ
-    // ==========================
-    const galleryContainer = $('#galleryContainer');
-    const memoriesContainer = $('#memoriesContainer');
-
-    // Наши моменты — карточка на каждый элемент массива GALLERIES
-    function renderGalleries(){
-      galleryContainer.innerHTML = '';
-      GALLERIES.forEach((g, gi)=>{
-        const card = document.createElement('article');
-        card.className = 'gallery-item reveal';
-        card.tabIndex = 0;
-        card.setAttribute('role','button');
-        card.setAttribute('aria-label', g.title);
-
-        const img = document.createElement('img');
-        img.className = 'gallery-thumb';
-        img.alt = g.title;
-        img.loading = 'lazy';
-        img.decoding = 'async';
-        img.dataset.src = g.cover || (g.items[0]?.src || '');
-        lazyImg(img);
-
-        const cap = document.createElement('div');
-        cap.className = 'gallery-caption';
-        cap.textContent = g.title + (g.items?.length ? ` · ${g.items.length}` : '');
-
-        card.appendChild(img); card.appendChild(cap);
-        card.addEventListener('click', ()=> openGallery(gi, 0));
-        card.addEventListener('keypress', (e)=>{ if(e.key==='Enter') openGallery(gi,0); });
-        galleryContainer.appendChild(card);
+      document.querySelectorAll('.reveal, .flower-container').forEach(el => {
+        observer.observe(el);
       });
     }
 
-    // Памятные моменты — только одна фотка на карточку
-    function renderMemories(){
-      memoriesContainer.innerHTML = '';
-      MEMORIES.forEach((m, mi)=>{
-        const card = document.createElement('article');
-        card.className = 'memory-card reveal';
-        card.addEventListener('click', ()=> openMemory(mi));
-
-        const imgWrap = document.createElement('div');
-        imgWrap.className = 'memory-image';
-        const img = document.createElement('img');
-        img.alt = m.title; img.loading='lazy'; img.decoding='async'; img.dataset.src = m.image; lazyImg(img);
-        imgWrap.appendChild(img);
-
-        const content = document.createElement('div');
-        content.className = 'memory-content';
-        content.innerHTML = `<span class="memory-date">${m.date}</span><h3 class="memory-title">${m.title}</h3><p class="memory-text">${m.text}</p>`;
-
-        card.appendChild(imgWrap); card.appendChild(content);
-        memoriesContainer.appendChild(card);
+    // Обработчики событий
+    function setupEventListeners() {
+      // Модальное окно письма
+      openLetterBtn.addEventListener('click', () => {
+        letterModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
       });
-    }
 
-    // ==========================
-    // 5) МОДАЛКА ГАЛЕРЕИ
-    // ==========================
-    const galleryModal = $('#galleryModal');
-    const galleryMain = $('#galleryMainMedia');
-    const thumbs = $('#galleryThumbnails');
-    let currentGallery = 0, currentIndex = 0, currentVideoEl = null;
+      closeLetterModal.addEventListener('click', () => {
+        letterModal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+      });
 
-    function openGallery(gIndex, startIndex=0){
-      currentGallery = gIndex; currentIndex = startIndex;
-      document.body.style.overflow='hidden';
-      renderGalleryThumbnails();
-      showGalleryMedia(currentIndex);
-      galleryModal.classList.add('active');
-      galleryModal.setAttribute('aria-hidden','false');
-    }
+      // Бургер-меню
+      hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        navLinks.classList.toggle('active');
+        document.body.style.overflow = document.body.style.overflow === 'hidden' ? 'auto' : 'hidden';
+      });
 
-    function closeGallery(){
-      pauseVideo();
-      galleryModal.classList.remove('active');
-      galleryModal.setAttribute('aria-hidden','true');
-      document.body.style.overflow='';
-    }
+      // Закрытие меню при клике на ссылку
+      document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+          hamburger.classList.remove('active');
+          navLinks.classList.remove('active');
+          document.body.style.overflow = 'auto';
+        });
+      });
 
-    function pauseVideo(){ if(currentVideoEl){ try{ currentVideoEl.pause(); }catch{} currentVideoEl.remove(); currentVideoEl=null; } }
-
-    function renderGalleryThumbnails(){
-      thumbs.innerHTML = '';
-      (GALLERIES[currentGallery].items||[]).forEach((item,i)=>{
-        const th = document.createElement('div'); th.className = 'thumbnail' + (i===currentIndex?' active':'');
-        if(isVideo(item.src)){
-          const v = document.createElement('video'); v.src=item.src; if(item.poster) v.poster=item.poster; th.appendChild(v);
-        } else {
-          const im = document.createElement('img'); im.src=item.src; th.appendChild(im);
+      // Галерея
+      galleryContainer.addEventListener('click', (e) => {
+        const galleryItem = e.target.closest('.gallery-item');
+        if (galleryItem) {
+          const index = parseInt(galleryItem.dataset.index);
+          openGalleryModal(index);
         }
-        th.addEventListener('click',()=>{ currentIndex=i; updateActiveThumb(); showGalleryMedia(currentIndex); });
-        thumbs.appendChild(th);
+      });
+
+      closeModal.addEventListener('click', () => {
+        galleryModal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+      });
+
+      prevBtn.addEventListener('click', () => navigateMedia(-1));
+      nextBtn.addEventListener('click', () => navigateMedia(1));
+
+      // Закрытие модальных окон по клику вне контента
+      document.addEventListener('click', (e) => {
+        if (e.target === letterModal) {
+          letterModal.classList.remove('active');
+          document.body.style.overflow = 'auto';
+        }
+        if (e.target === galleryModal) {
+          galleryModal.classList.remove('active');
+          document.body.style.overflow = 'auto';
+        }
       });
     }
 
-    function updateActiveThumb(){
-      $$('.thumbnail', thumbs).forEach((el, i)=>{ el.classList.toggle('active', i===currentIndex); });
+    // Функции для галереи
+    function openGalleryModal(index) {
+      currentMediaIndex = index;
+      updateGalleryModal();
+      galleryModal.classList.add('active');
+      document.body.style.overflow = 'hidden';
     }
 
-    function showGalleryMedia(index){
-      pauseVideo();
-      const item = GALLERIES[currentGallery].items[index];
-      if(!item) return;
-      if(isVideo(item.src)){
-        const v = document.createElement('video');
-        v.controls = true; v.autoplay = true; v.playsInline = true; v.style.width='100%'; v.style.height='100%'; v.style.objectFit='contain';
-        v.src = item.src; if(item.poster) v.poster=item.poster; galleryMain.style.display='none'; galleryMain.removeAttribute('src');
-        galleryMain.parentNode.appendChild(v); currentVideoEl = v; v.play().catch(()=>{});
-      } else {
-        galleryMain.src = item.src; galleryMain.alt = GALLERIES[currentGallery].title; galleryMain.style.display='block';
+    function updateGalleryModal() {
+      const item = galleryItems[currentMediaIndex];
+      
+      // Очищаем контейнер
+      mediaContainer.innerHTML = '';
+      thumbnails.innerHTML = '';
+      
+      // Добавляем основное медиа
+      if (item.type === 'image') {
+        mediaContainer.innerHTML = `<img src="${item.src}" alt="${item.caption}">`;
       }
+      
+      // Добавляем миниатюры
+      galleryItems.forEach((thumbItem, idx) => {
+        const thumbnail = document.createElement('div');
+        thumbnail.className = `thumbnail ${idx === currentMediaIndex ? 'active' : ''}`;
+        thumbnail.dataset.index = idx;
+        
+        if (thumbItem.type === 'image') {
+          thumbnail.innerHTML = `<img src="${thumbItem.src}" alt="${thumbItem.caption}">`;
+        }
+        
+        thumbnail.addEventListener('click', () => {
+          currentMediaIndex = idx;
+          updateGalleryModal();
+        });
+        
+        thumbnails.appendChild(thumbnail);
+      });
     }
 
-    $('#prevBtn').addEventListener('click',()=>{ const len=GALLERIES[currentGallery].items.length; currentIndex=(currentIndex-1+len)%len; updateActiveThumb(); showGalleryMedia(currentIndex); });
-    $('#nextBtn').addEventListener('click',()=>{ const len=GALLERIES[currentGallery].items.length; currentIndex=(currentIndex+1)%len; updateActiveThumb(); showGalleryMedia(currentIndex); });
-
-    // Закрытие модалок
-    document.addEventListener('click',(e)=>{ if(e.target.matches('[data-close]')){ closeGallery(); closeMemory(); } if(e.target===galleryModal){ closeGallery(); } if(e.target===memoryModal){ closeMemory(); } });
-    document.addEventListener('keydown',(e)=>{ if(e.key==='Escape'){ closeGallery(); closeMemory(); } });
-
-    // ==========================
-    // 6) МОДАЛКА ПАМЯТНЫХ МОМЕНТОВ
-    // ==========================
-    const memoryModal = $('#memoryModal');
-    const memoryImg = $('#memoryMainImage');
-    function openMemory(i){
-      const m = MEMORIES[i]; if(!m) return;
-      memoryImg.src = m.image; memoryImg.alt = m.title;
-      $('#memoryModalDate').textContent = m.date;
-      $('#memoryModalTitle').textContent = m.title;
-      $('#memoryModalText').textContent = m.text;
-      document.body.style.overflow='hidden';
-      memoryModal.classList.add('active'); memoryModal.setAttribute('aria-hidden','false');
+    function navigateMedia(direction) {
+      currentMediaIndex = (currentMediaIndex + direction + galleryItems.length) % galleryItems.length;
+      updateGalleryModal();
     }
-    function closeMemory(){ memoryModal.classList.remove('active'); memoryModal.setAttribute('aria-hidden','true'); document.body.style.overflow=''; }
-
-    // ==========================
-    // 7) АНИМАЦИИ ПРИ ПРОКРУТКЕ (оптимизировано через IntersectionObserver)
-    // ==========================
-    const ioReveal = new IntersectionObserver((entries)=>{
-      entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in-view'); ioReveal.unobserve(e.target); } });
-    },{rootMargin:'-40px 0px'});
-
-    function initReveal(){ $$('.reveal').forEach(el=> ioReveal.observe(el)); }
-
-    // ==========================
-    // 8) ПРЕЛОАД КЛЮЧЕВЫХ ИЗОБРАЖЕНИЙ
-    // ==========================
-    function preload(srcs){ srcs.filter(Boolean).slice(0,3).forEach(src=>{ const img=new Image(); img.src=src; }); }
-
-    // ==========================
-    // 9) ИНИЦИАЛИЗАЦИЯ
-    // ==========================
-    function init(){
-      updateCounter(); setInterval(updateCounter, 60000);
-      renderGalleries(); renderMemories(); initReveal();
-      // Прелоад первых обложек галерей
-      preload(GALLERIES.map(g=> g.cover || (g.items[0]?.src)));
-    }
-    window.addEventListener('DOMContentLoaded', init, { once:true });
   </script>
 </body>
 </html>
